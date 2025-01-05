@@ -1,0 +1,7 @@
+/node_modules
+npm-debug.log
+/.nova
+/.vscode
+/.zed
+/.env
+/.wwebjs_auth
