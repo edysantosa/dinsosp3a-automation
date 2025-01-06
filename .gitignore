@@ -5,3 +5,7 @@ npm-debug.log
 /.zed
 /.env
 /.wwebjs_auth
+/.wwebjs_cache
+*.pdf
+*.jpg
+*.png
