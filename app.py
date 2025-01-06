@@ -9,6 +9,9 @@ import numpy as np
 from PIL import Image, ImageDraw
 import pytesseract
 import time
+import requests
+from babel.dates import format_date
+from datetime import date, datetime, timedelta
 
 driver = webdriver.Firefox()
 driver.get("https://sso.baliprov.go.id/")
@@ -98,15 +101,42 @@ try:
     time.sleep(2)
     driver.get("https://kanal.baliprov.go.id/internal")
     time.sleep(2)
-    driver.get("https://kanal.baliprov.go.id/agenda/download_agenda?agenda_date=2025-01-06&agenda_type=OPD")
+    tommorow = date.today() + timedelta(days=1) 
+    tommorowFormat = format_date(tommorow, "yyyy-MM-dd", locale='id')
+    tommorowName = format_date(tommorow, "EEEE, d MMMM yyyy", locale='id')
 
+    def get_request_session(driver):
+        import requests
+        session = requests.Session()
+        for cookie in driver.get_cookies():
+            session.cookies.set(cookie['name'], cookie['value'])
+
+        return session
+
+    url = "https://kanal.baliprov.go.id/agenda/download_agenda?agenda_date={date}&agenda_type=OPD".format(date=tommorowFormat)
+    session = get_request_session(driver)
+    r = session.get(url, stream=True)
+    chunk_size = 2000
+    with open('agenda-{date}.pdf'.format(date=tommorowName), 'wb') as file:
+        for chunk in r.iter_content(chunk_size):
+            file.write(chunk)
+
+
+    # Kirim agenda ke server whatsapp
+    # headers = {"Content-Type": "application/json;charset=utf-8"}
+    # json_payload = {
+    #     "resourceType": "Appointment"
+    # }
+    # url = 'http://localhost:8000/send-message'
+    # r = requests.post(url, headers=headers, json=json_payload)
+    # print (r)
 except TimeoutException as ex:
     print("TimeoutException has been thrown. " + str(ex))
     driver.quit()
 
 finally:
     # Close the browser session
-    #driver.quit()
+    driver.quit()
     print('done');
 
 # https://stackoverflow.com/questions/5370762/how-to-hide-firefox-window-selenium-webdriver/23898148#23898148
