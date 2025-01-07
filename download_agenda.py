@@ -128,4 +128,4 @@ finally:
     driver.quit()
     print('done');
 
-# https://stackoverflow.com/questions/5370762/how-to-hide-firefox-window-selenium-webdriver/23898148#23898148
+# https://stackoverflow.com/questions/6183276/how-do-i-run-selenium-in-xvfb
