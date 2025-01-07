@@ -90,14 +90,14 @@ app.post('/send-message', (req, res) => {
     data = req.body;
 
     if (data.file) {
-        if (!data.mimetype || !data.file_name) {
+        if (!data.mime_type || !data.file_name) {
             res.status(200).json({
                 result: false,
-                message: "mimetype dan file_name perlu diisi"
+                message: "mime_type dan file_name perlu diisi"
             });
         }
 
-        media = new MessageMedia(data.mimetype, data.file, data.file_name);
+        media = new MessageMedia(data.mime_type, data.file, data.file_name);
 
         whatsapp.sendMessage(sanitizePhoneNumber(data.phone_number), media, {caption: data.message}).then((result) => {
             res.status(200).json({
@@ -128,29 +128,40 @@ app.post('/send-message', (req, res) => {
 app.post('/send-group-message', (req, res) => {
     data = req.body;
 
-    whatsapp.getChats().then((result) => {
-        chat = result.find((chat) => chat.name === data.group_name);
+    whatsapp.getChats().then((chats) => {
+        chat = chats.find((chat) => chat.name === data.group_name);
+        
+        if (!chat) {
+            res.status(200).json({
+                result: false,
+                message: "Grup tidak ditemukan"
+            });
+            return;
+        }
 
         if (data.file) {
-            if (!data.mimetype || !data.file_name) {
+            if (!data.mime_type || !data.file_name) {
                 res.status(200).json({
                     result: false,
-                    message: "mimetype dan file_name perlu diisi"
+                    message: "mime_type dan file_name perlu diisi"
                 });
+                return;
             }
 
-            media = new MessageMedia(data.mimetype, data.file, data.file_name);
+            media = new MessageMedia(data.mime_type, data.file, data.file_name);
 
             chat.sendMessage(media, {caption: data.message}).then((result) => {
                 res.status(200).json({
                     result: true,
                     message: "Pesan terkirim"
                 });
+                return;
             }).catch((error) => {
                 res.status(500).json({
                     result: false,
                     message: error.message
                 });
+                return;
             });
         } else {
             chat.sendMessage(data.message).then((result) => {
@@ -158,11 +169,13 @@ app.post('/send-group-message', (req, res) => {
                     result: true,
                     message: "Pesan terkirim"
                 });
+                return;
             }).catch((error) => {
                 res.status(500).json({
                     result: false,
                     message: error.message
                 });
+                return;
             });
         }
 
