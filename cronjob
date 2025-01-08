@@ -1,0 +1,3 @@
+55 17 * * * .\env\Scripts\python.exe download_whatsapp.py
+0 18 * * *  .\env\Scripts\python.exe send_whatsapp.py --groupname "Mista Roboto" --message "Selamat malam kakak-kakak sespri cantik, ijin mengirim agenda yang akan dikirim ke grup dalam sejam, mohon dicek" --deletefile false
+0 19 * * *  .\env\Scripts\python.exe send_whatsapp.py --groupname "Mista Roboto" --message "Ijin Ibu/Bapak, share agenda untuk besok. Hari {date}" --deletefile true

@@ -47,7 +47,7 @@ def get_captcha():
     img_base64 = driver.execute_script("""
         var ele = arguments[0];
         var cnv = document.createElement('canvas');
-        cnv.width = ele.width+15; cnv.height = ele.height+15;
+        cnv.width = ele.width+35; cnv.height = ele.height+30;
         cnv.getContext('2d').drawImage(ele, 0, 0);
         return cnv.toDataURL('image/jpeg').substring(22);    
         """, ele_captcha)
@@ -71,7 +71,7 @@ try:
             get_captcha()
             # Olah gambar captcha 
             fix_captcha()
-            text = pytesseract.image_to_string('captcha.png')
+            text = pytesseract.image_to_string('captcha.png', lang="ind")
             print('Captcha : ', text)
             driver.find_element(By.ID, "captcha").send_keys(text)
             

@@ -13,6 +13,29 @@ const whatsapp = new Client({
 });
 
 
+// Spawn promise
+const spawn = require('node:child_process').spawn;
+const spawnPromise = (cmd, args) => {
+    return new Promise((resolve, reject) => {
+        try {
+            // const runCommand = spawn(cmd, args, {shell: true});
+            // runCommand.stdout.on('data', data => resolve(data.toString()));
+            // runCommand.on('error', err => {
+            //     throw new Error(err.message);
+            // });
+            const pyprog = spawn(cmd, args, {shell: true});
+            pyprog.stdout.on('data', (data) => {
+                resolve(data.toString());
+            });
+            pyprog.stderr.on('data', (data) => {
+                reject(data.toString());
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 /*
     Inisialisasi WhatsappJS
  */
@@ -39,6 +62,41 @@ whatsapp.on('change_state', (reason) => {
 whatsapp.on('message', async msg => {
     if (msg.body === 'test') {
         msg.reply('tost');
+    } else if (msg.body === 'kirim ulang'){
+        // Delete last message
+        whatsapp.getChats().then((chats) => {
+            chat = chats.find((chat) => chat.name === "Mista Roboto");
+            chat.fetchMessages({
+                limit: 1,
+                fromMe: true
+            }).then((lastMessages) => {
+                lastMessage = lastMessages.find(e => true);
+                lastMessage.delete(true);
+            });
+        });
+
+        // Download dan kirim ulang agenda
+        spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
+            data => {
+                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile false', '--message "Selamat malam kakak-kakak sespri cantik, ijin mengirim agenda yang akan dikirim ke grup dalam sejam, mohon dicek"']).then(
+                    data => console.log('data: ', data)
+                ).catch((err) => console.log(err));;
+            }
+        ).catch((err) => console.log(err));
+    } else {
+        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk download dan kirim ulang agenda ketik 'kirim ulang' huruf kecil semua";
+        mentionedMessage = msg.mentionedIds.find((ids) => ids === whatsapp.info.wid._serialized);
+        if (mentionedMessage) {
+            msg.reply(pesanMaaf);
+        }
+
+        if (msg.hasQuotedMsg) {
+            msg.getQuotedMessage().then((quotedMessage) => {
+                if (quotedMessage.fromMe){
+                    msg.reply(pesanMaaf);
+                }
+            });
+        }
     }
 });
 
