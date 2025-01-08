@@ -1,0 +1,3 @@
+.\env\Scripts\python.exe download_whatsapp.py
+.\env\Scripts\python.exe send_whatsapp.py --groupname "Mista Roboto" --message "Selamat malam kakak-kakak sespri cantik, ijin mengirim agenda yang akan dikirim ke grup dalam sejam, mohon dicek" --deletefile false
+.\env\Scripts\python.exe send_whatsapp.py --groupname "Mista Roboto" --message "dsfsfsfa" --deletefile true
