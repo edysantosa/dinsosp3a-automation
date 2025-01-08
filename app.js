@@ -78,7 +78,7 @@ whatsapp.on('message', async msg => {
         // Download dan kirim ulang agenda
         spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
             data => {
-                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile false', '--message "Selamat malam kakak-kakak sespri cantik, ijin mengirim agenda yang akan dikirim ke grup dalam sejam, mohon dicek"']).then(
+                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Dinas Sosial P3A Prov. Bali"', '--deletefile true', '--message "Ralat Agenda {date}"']).then(
                     data => console.log('data: ', data)
                 ).catch((err) => console.log(err));;
             }
