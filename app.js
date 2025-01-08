@@ -83,6 +83,20 @@ whatsapp.on('message', async msg => {
                 ).catch((err) => console.log(err));;
             }
         ).catch((err) => console.log(err));
+    } else {
+        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk download dan kirim ulang agenda ketik 'kirim ulang' huruf kecil semua";
+        mentionedMessage = msg.mentionedIds.find((ids) => ids === whatsapp.info.wid._serialized);
+        if (mentionedMessage) {
+            msg.reply(pesanMaaf);
+        }
+
+        if (msg.hasQuotedMsg) {
+            msg.getQuotedMessage().then((quotedMessage) => {
+                if (quotedMessage.fromMe){
+                    msg.reply(pesanMaaf);
+                }
+            });
+        }
     }
 });
 

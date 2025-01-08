@@ -32,11 +32,12 @@ if __name__ == "__main__":
         headers = {"Content-Type": "application/json;charset=utf-8"}
         json_payload = {
             "group_name":groupName,
-            "message":message,
+            "message":message.format(date=tommorowName),
             "file_name": "Agenda {date}".format(date=tommorowFormat),
             "mime_type": mimetypes.guess_file_type("export.pdf")[0],
             "file": encoded_string.decode("utf-8")
         }
+
         url = 'http://localhost:8000/send-group-message'
         r = requests.post(url, headers=headers, json=json_payload)
         print (r)
