@@ -42,7 +42,7 @@ if __name__ == "__main__":
         print (r)
 
         # Hapus file agenda
-        if deletefile:
+        if deleteFile:
             if os.path.exists(file_name):
                 os.remove(file_name)
             else:
