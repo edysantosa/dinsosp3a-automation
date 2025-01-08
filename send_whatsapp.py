@@ -12,12 +12,12 @@ if __name__ == "__main__":
     )
     parser.add_argument("--groupname", required=True, help="Nama grup whatsapp")
     parser.add_argument("--message", required=True, help="Pesan yang dikirim")
-    #parser.add_argument("--filepath", required=True, type=ascii, help="Path dari file yang akan dikirim")
+    parser.add_argument("--deletefile", required=False, default=False, help="Path dari file yang akan dikirim")
     args = parser.parse_args()
 
     groupName = args.groupname
     message = args.message
-    #filePath = args.filepath
+    deleteFile = args.deletefile
 
 
     tommorow = date.today() + timedelta(days=1) 
@@ -42,10 +42,11 @@ if __name__ == "__main__":
         print (r)
 
         # Hapus file agenda
-        if os.path.exists(file_name):
-          os.remove(file_name)
-        else:
-          print("The file does not exist")
+        if deletefile:
+            if os.path.exists(file_name):
+                os.remove(file_name)
+            else:
+                print("The file does not exist")
     # except requests.exceptions.Timeout:
         # Maybe set up for a retry, or continue in a retry loop
     # except requests.exceptions.TooManyRedirects:

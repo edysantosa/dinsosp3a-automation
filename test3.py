@@ -3,7 +3,7 @@
 import cv2
 import numpy as np
 
-img = cv2.imread("gambar.png")
+img = cv2.imread("image.jpg")
 
 # invert warna
 img = cv2.bitwise_not(img)

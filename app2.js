@@ -6,57 +6,72 @@ app.use(express.urlencoded({limit: '25mb', extended: true}));
 const cors = require('cors');
 app.use(cors());
 
+const spawn = require('node:child_process').spawn;
 
-app.post('/send-group-message', (req, res) => {
-    data = req.body;
-
-    whatsapp.getChats().then((result) => {
-        chat = result.find((chat) => chat.name === data.group_name);
-
-        if (data.file) {
-            if (!data.mimetype) {
-                res.status(200).json({
-                    result: false,
-                    message: "mimetype perlu diisi"
-                });
-            }
-
-            media = new MessageMedia(data.mimetype, data.file, data.filename);
-
-            chat.sendMessage(media, {caption: data.caption}).then((result) => {
-                res.status(200).json({
-                    result: true,
-                    message: "Pesan terkirim"
-                });
-            }).catch((error) => {
-                res.status(500).json({
-                    result: false,
-                    message: error.message
-                });
+const spawnPromise = (cmd, args) => {
+    return new Promise((resolve, reject) => {
+        try {
+            // const runCommand = spawn(cmd, args, {shell: true});
+            // runCommand.stdout.on('data', data => resolve(data.toString()));
+            // runCommand.on('error', err => {
+            //     throw new Error(err.message);
+            // });
+            const pyprog = spawn(cmd, args, {shell: true});
+            pyprog.stdout.on('data', (data) => {
+                resolve(data.toString());
             });
-        } else {
-            chat.sendMessage(data.message).then((result) => {
-                res.status(200).json({
-                    result: true,
-                    message: "Pesan terkirim"
-                });
-            }).catch((error) => {
-                res.status(500).json({
-                    result: false,
-                    message: error.message
-                });
+            pyprog.stderr.on('data', (data) => {
+                reject(data.toString());
             });
+        } catch (e) {
+            reject(e);
         }
-
-    }).catch((error) => {
-        res.status(200).json({
-            result: false,
-            message: 'DISCONNECTED'
-        });
     });
+};
+
+
+// Dapatkan qrcode untuk otentifikasi
+app.get('/test', (req, res) => {
+    res.write('welcome\n');
+
+    // runPy.then((fromRunpy) => {
+    //     console.log(fromRunpy.toString());
+    //     res.end(fromRunpy);
+    // }).catch(err => {
+    //   console.log(err)
+    // });
+
+    spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
+        data => {
+            spawnPromise('.\\env\\Scripts\\python.exe .\\test.py').then(
+                data => console.log('data: ', data)
+            ).catch((err) => console.log(err));;
+        }
+    ).catch((err) => console.log(err));;
+
+    // spawnPromise('python ./downl.py', ['-h']).then(
+    //     data => console.log('data: ', data)
+    // );
+
+    res.end("fromRunpy");
+
+    // const spawn = require('node:child_process').spawn;
+    // const spawnPromise = (cmd, args) => {
+    //     return new Promise((resolve, reject) => {
+    //     try {
+    //         const runCommand = spawn(cmd, args);
+    //             runCommand.stdout.on('data', data => resolve(data.toString()));
+    //             runCommand.on('error', err => {
+    //             throw new Error(err.message);
+    //         });
+    //     } catch (e) {
+    //         reject(e);
+    //     }
+    //     });
+    // };
+
+
 });
-
-
  
 // Jalankan express di port 8000
 // app.listen(8000, function() {

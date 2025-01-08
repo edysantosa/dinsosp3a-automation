@@ -17,3 +17,5 @@ if __name__ == "__main__":
     num3 = args.num3
 
     print(get_sum_of_nums(num1, num2, num3))
+
+    exit(100)

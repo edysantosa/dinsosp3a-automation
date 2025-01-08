@@ -17,9 +17,12 @@ import base64
 img_base64 = driver.execute_script("""
     var ele = arguments[0];
     var cnv = document.createElement('canvas');
-    cnv.width = ele.width; cnv.height = ele.height+5;
+    cnv.width = ele.width+35; cnv.height = ele.height+30;
     cnv.getContext('2d').drawImage(ele, 0, 0);
     return cnv.toDataURL('image/jpeg').substring(22);    
     """, ele_captcha)
 with open(r"image.jpg", 'wb') as f:
     f.write(base64.b64decode(img_base64))
+
+
+exit(100)
