@@ -12,11 +12,31 @@ import time
 from babel.dates import format_date
 from datetime import date, datetime, timedelta
 
-driver = webdriver.Firefox()
+
+
+
+
+# https://forums.raspberrypi.com/viewtopic.php?p=2155925#p2155925
+# https://stackoverflow.com/questions/53657215/how-to-run-headless-chrome-with-selenium-in-python
+# use sudo apt install chromium-chromedriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+# chrome_options.add_argument("--disable-extensions")
+# chrome_options.add_argument("--disable-gpu")
+# chrome_options.add_argument("--no-sandbox") # linux only
+chrome_options.add_argument("--headless=new") # for Chrome >= 109
+# chrome_options.add_argument("--headless")
+# chrome_options.headless = True # also works
+# service = Service('/usr/bin/chromedriver')
+service = Service('c:\\programdata\\chocolatey\\bin\\chromedriver.exe')
+driver = webdriver.Chrome(service=service, options=chrome_options)
+
+# Kalau pakai firefox comment yang diatas
+# driver = webdriver.Firefox()
 driver.get("https://sso.baliprov.go.id/")
 wait = WebDriverWait(driver, 5)
 driver.maximize_window()
-
 
 def fix_captcha():
     img = cv2.imread("captcha.jpg")
@@ -66,7 +86,7 @@ try:
         text = ''
         while not text.strip():
             driver.find_element(By.CLASS_NAME , "btn-chg-captcha").click()
-            time.sleep(1)
+            time.sleep(2)
             # Simpan gambar capcta
             get_captcha()
             # Olah gambar captcha 
@@ -76,7 +96,8 @@ try:
             driver.find_element(By.ID, "captcha").send_keys(text)
             
         # click on signin button
-        driver.find_element(By.CLASS_NAME , "btn-wanakerti").click()
+        # Hal aneh, kalau pakai chrome pas send keys captcha langsung submit form
+        # driver.find_element(By.CLASS_NAME , "btn-wanakerti").click()
         try:       
             authRadio = wait.until(EC.presence_of_element_located((By.ID, "customRadio2")))
             # select login with authenticator code
