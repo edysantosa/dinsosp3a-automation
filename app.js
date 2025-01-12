@@ -69,11 +69,15 @@ whatsapp.on('message', async msg => {
         spawnPromise('crontab -r').then(
             data => console.log('data: ', data)
         ).catch((err) => console.log(err));
+    } else if (msg.body === 'agenda-jadwalkan'){
+        spawnPromise('crontab /home/edy/dinsosp3a-automation/cronjob').then(
+            data => console.log('data: ', data)
+        ).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-ralat' || msg.body === 'agenda-kirim'){
 
-        $pesan = 'Om Swastiatu Ibu/Bapak, mohon ijin share agenda untuk besok. Hari';
+        let pesan = 'Om Swastiatu Ibu/Bapak, mohon ijin share agenda untuk besok. Hari';
         if (msg.body === 'agenda-ralat'){
-            $pesan = 'Ralat Agenda';
+            pesan = 'Ralat Agenda';
             // Delete last message
             whatsapp.getChats().then((chats) => {
                 chat = chats.find((chat) => chat.name === "Mista Roboto");
@@ -88,11 +92,16 @@ whatsapp.on('message', async msg => {
         }
 
         // Download dan kirim ulang agenda
+        console.log('WhatsApp: Mendownload agenda');
         spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
             data => {
-                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "{$pesan} {date}"`]).then(
-                    data => console.log('data: ', data)
-                ).catch((err) => console.log(err));
+                console.log('WhatsApp: Selesai mendownload agenda');
+                setTimeout( () => {
+                    console.log('WhatsApp: Mengirim agenda');
+                    spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "${pesan} {date}"`]).then(
+                        data => console.log('data: ', data)
+                    ).catch((err) => console.log(err));
+                }, 3000);
             }
         ).catch((err) => console.log(err));
     } else {
