@@ -18,7 +18,7 @@ if __name__ == "__main__":
     headers = {"Content-Type": "application/json;charset=utf-8"}
     json_payload = {
         "phone_number": phone,
-        "caption": message
+        "message": message
     }
     url = 'http://localhost:8000/send-message'
     r = requests.post(url, headers=headers, json=json_payload)
