@@ -60,9 +60,12 @@ whatsapp.on('change_state', (reason) => {
 });
 
 whatsapp.on('message', async msg => {
-    if (msg.body === 'test') {
-        msg.reply('tost');
-    } else if (msg.body === 'kirim ulang'){
+    // if (msg.body === 'test') {
+    //     msg.reply('tost');
+    // }
+
+    // Grup dinas: Dinas Sosial P3A Prov. Bali
+    if (msg.body === 'kirim ulang'){
         // Delete last message
         whatsapp.getChats().then((chats) => {
             chat = chats.find((chat) => chat.name === "Mista Roboto");
@@ -78,7 +81,7 @@ whatsapp.on('message', async msg => {
         // Download dan kirim ulang agenda
         spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
             data => {
-                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Dinas Sosial P3A Prov. Bali"', '--deletefile true', '--message "Ralat Agenda {date}"']).then(
+                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', '--message "Ralat Agenda {date}"']).then(
                     data => console.log('data: ', data)
                 ).catch((err) => console.log(err));;
             }
@@ -88,7 +91,7 @@ whatsapp.on('message', async msg => {
         msg.getChat().then((chat) => {
             if (chat.isGroup) {
                 // Ignore jika dari grup dinas
-                if (chat.name === "Dinas Sosial P3A Prov. Bali") {
+                if (chat.name === "Mista Roboto") {
                     return;
                 }
                 mentionedMessage = msg.mentionedIds.find((ids) => ids === whatsapp.info.wid._serialized);
