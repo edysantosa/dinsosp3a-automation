@@ -72,7 +72,7 @@ whatsapp.on('message', async msg => {
         ).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-jadwalkan'){
         spawnPromise('crontab /home/edy/dinsosp3a-automation/cronjob').then(
-            data => msg.reply("Pengiriman agenda akan dijadwalkan nanti malam nggih")
+            data => msg.reply("Siap!, pengiriman agenda akan dijadwalkan nanti malam nggih")
         ).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-ralat' || msg.body === 'agenda-kirim'){
 
