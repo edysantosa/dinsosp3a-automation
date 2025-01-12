@@ -9,7 +9,7 @@ if __name__ == "__main__":
         description="Mengirim pesan ke whatsapp"
     )
 
-    parser.add_argument("--phone", default="081999066412", help="Nama grup whatsapp")
+    parser.add_argument("--phone", default="081999066412", help="Nomor whatsapp")
     parser.add_argument("--message", default="Heehheheheh", help="Pesan yang dikirim")
     phone = args.number
     message = args.message
