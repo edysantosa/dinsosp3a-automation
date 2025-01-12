@@ -81,7 +81,7 @@ whatsapp.on('message', async msg => {
             pesan = 'Ralat Agenda';
             // Delete last message
             whatsapp.getChats().then((chats) => {
-                chat = chats.find((chat) => chat.name === "Mista Roboto");
+                chat = chats.find((chat) => chat.name === "Dinas Sosial P3A Prov. Bali");
                 chat.fetchMessages({
                     limit: 1,
                     fromMe: true
@@ -101,7 +101,7 @@ whatsapp.on('message', async msg => {
                 setTimeout( () => {
                     console.log('WhatsApp: Mengirim agenda');
                     msg.reply('Mengirim agenda')
-                    spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "${pesan} {date}"`]).then(
+                    spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py', ['--groupname "Dinas Sosial P3A Prov. Bali"', '--deletefile true', `--message "${pesan} {date}"`]).then(
                         data => console.log('data: ', data)
                     ).catch((err) => console.log(err));
                 }, 3000);
@@ -112,7 +112,7 @@ whatsapp.on('message', async msg => {
         msg.getChat().then((chat) => {
             if (chat.isGroup) {
                 // Ignore jika dari grup dinas
-                if (chat.name === "Mista Roboto") {
+                if (chat.name === "Dinas Sosial P3A Prov. Bali") {
                     return;
                 }
                 mentionedMessage = msg.mentionedIds.find((ids) => ids === whatsapp.info.wid._serialized);

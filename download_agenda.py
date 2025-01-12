@@ -28,8 +28,8 @@ chrome_options = Options()
 chrome_options.add_argument("--headless=new") # for Chrome >= 109
 # chrome_options.add_argument("--headless")
 # chrome_options.headless = True # also works
-# service = Service('/usr/bin/chromedriver')
-service = Service('c:\\programdata\\chocolatey\\bin\\chromedriver.exe')
+service = Service('/usr/bin/chromedriver')
+# service = Service('c:\\programdata\\chocolatey\\bin\\chromedriver.exe')
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Kalau pakai firefox comment yang diatas
