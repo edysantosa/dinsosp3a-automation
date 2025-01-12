@@ -66,12 +66,13 @@ whatsapp.on('message', async msg => {
 
     // Grup dinas: Dinas Sosial P3A Prov. Bali
     if (msg.body === 'agenda-batal'){
+        msg.reply("Membatalkan jadwal pengiriman agenda");
         spawnPromise('crontab -r').then(
-            data => console.log('data: ', data)
+            data => msg.reply("Jadwal pengiriman agenda dibatalkan, untuk mengembalikan ketik perintah 'agenda-jadwalkan'")
         ).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-jadwalkan'){
         spawnPromise('crontab /home/edy/dinsosp3a-automation/cronjob').then(
-            data => console.log('data: ', data)
+            data => msg.reply("Pengiriman agenda akan dijadwalkan nanti malam nggih")
         ).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-ralat' || msg.body === 'agenda-kirim'){
 
@@ -105,7 +106,7 @@ whatsapp.on('message', async msg => {
             }
         ).catch((err) => console.log(err));
     } else {
-        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk mengirim ralat agenda ketik 'agenda-ralat' atau untuk membatalkan jadwal pengiriman ke grup hari ini kirim 'agenda-batal'";
+        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk mengirim ralat agenda ketik 'agenda-ralat' atau untuk membatalkan jadwal pengiriman agenda ke grup dinas kirim 'agenda-batal'";
         msg.getChat().then((chat) => {
             if (chat.isGroup) {
                 // Ignore jika dari grup dinas
