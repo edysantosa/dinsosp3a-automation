@@ -12,7 +12,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("--groupname", required=True, help="Nama grup whatsapp")
     parser.add_argument("--message", required=True, help="Pesan yang dikirim")
-    parser.add_argument("--deletefile", required=False, default=False, help="Path dari file yang akan dikirim")
+    parser.add_argument("--deletefile", action='store_true', help="Path dari file yang akan dikirim")
     args = parser.parse_args()
 
     groupName = args.groupname
