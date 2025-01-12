@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("--phone", default="081999066412", help="Nomor whatsapp")
     parser.add_argument("--message", default="Heehheheheh", help="Pesan yang dikirim")
     args = parser.parse_args()
-    phone = args.number
+    phone = args.phone
     message = args.message
 
     headers = {"Content-Type": "application/json;charset=utf-8"}
