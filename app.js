@@ -93,12 +93,12 @@ whatsapp.on('message', async msg => {
 
         // Download dan kirim ulang agenda
         console.log('WhatsApp: Mendownload agenda');
-        spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
+        spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/download_agenda.py').then(
             data => {
                 console.log('WhatsApp: Selesai mendownload agenda');
                 setTimeout( () => {
                     console.log('WhatsApp: Mengirim agenda');
-                    spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "${pesan} {date}"`]).then(
+                    spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "${pesan} {date}"`]).then(
                         data => console.log('data: ', data)
                     ).catch((err) => console.log(err));
                 }, 3000);
