@@ -65,29 +65,38 @@ whatsapp.on('message', async msg => {
     // }
 
     // Grup dinas: Dinas Sosial P3A Prov. Bali
-    if (msg.body === 'kirim ulang'){
-        // Delete last message
-        whatsapp.getChats().then((chats) => {
-            chat = chats.find((chat) => chat.name === "Mista Roboto");
-            chat.fetchMessages({
-                limit: 1,
-                fromMe: true
-            }).then((lastMessages) => {
-                lastMessage = lastMessages.find(e => true);
-                lastMessage.delete(true);
+    if (msg.body === 'agenda-batal'){
+        spawnPromise('crontab -r').then(
+            data => console.log('data: ', data)
+        ).catch((err) => console.log(err));
+    } else if (msg.body === 'agenda-ralat' || msg.body === 'agenda-kirim'){
+
+        $pesan = 'Om Swastiatu Ibu/Bapak, mohon ijin share agenda untuk besok. Hari';
+        if (msg.body === 'agenda-ralat'){
+            $pesan = 'Ralat Agenda';
+            // Delete last message
+            whatsapp.getChats().then((chats) => {
+                chat = chats.find((chat) => chat.name === "Mista Roboto");
+                chat.fetchMessages({
+                    limit: 1,
+                    fromMe: true
+                }).then((lastMessages) => {
+                    lastMessage = lastMessages.find(e => true);
+                    lastMessage.delete(true);
+                });
             });
-        });
+        }
 
         // Download dan kirim ulang agenda
         spawnPromise('.\\env\\Scripts\\python.exe .\\download_agenda.py').then(
             data => {
-                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', '--message "Ralat Agenda {date}"']).then(
+                spawnPromise('.\\env\\Scripts\\python.exe .\\send_whatsapp.py', ['--groupname "Mista Roboto"', '--deletefile true', `--message "{$pesan} {date}"`]).then(
                     data => console.log('data: ', data)
-                ).catch((err) => console.log(err));;
+                ).catch((err) => console.log(err));
             }
         ).catch((err) => console.log(err));
     } else {
-        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk download dan kirim ulang agenda ketik 'kirim ulang' huruf kecil semua";
+        pesanMaaf = "Mohon maaf kak, saya hanya bot. Untuk mengirim ralat agenda ketik 'agenda-ralat' atau untuk membatalkan jadwal pengiriman ke grup hari ini kirim 'agenda-batal'";
         msg.getChat().then((chat) => {
             if (chat.isGroup) {
                 // Ignore jika dari grup dinas

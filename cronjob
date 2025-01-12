@@ -1,3 +1,4 @@
+0 1 * * * crontab /home/edy/dinsosp3a-automation/cronjob
 55 17 * * * /home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/download_whatsapp.py
 0 18 * * *  /home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py --groupname "SESPRI DINSOS" --message "Selamat malam kakak-kakak sespri cantik, ijin mengirim agenda yang akan dikirim ke grup dalam sejam, mohon dicek" --deletefile false
 1 18 * * *  /home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/test_whatsapp.py --phone "081999066412" --message "wkwkwkwk"
