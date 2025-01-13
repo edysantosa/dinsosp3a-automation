@@ -106,7 +106,7 @@ whatsapp.on('message', async msg => {
                 setTimeout( () => {
                     console.log('WhatsApp: Mengirim agenda');
                     msg.reply('Mengirim agenda')
-                    spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py', ['--groupname grupDinas', '--deletefile true', `--message "${pesan} {date}"`]).then(
+                    spawnPromise('/home/edy/dinsosp3a-automation/env/bin/python /home/edy/dinsosp3a-automation/send_whatsapp.py', ['--groupname grupDinas', '--deletefile', `--message "${pesan} {date}"`]).then(
                         data => console.log('data: ', data)
                     ).catch((err) => console.log(err));
                 }, 3000);
