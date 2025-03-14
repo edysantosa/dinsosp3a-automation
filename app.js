@@ -9,7 +9,10 @@ app.use(cors());
 // WhatsApp.js
 const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
 const whatsapp = new Client({
-    authStrategy: new LocalAuth()
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        timeout: 30000 // default is 30s
+    }
 });
 
 
