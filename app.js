@@ -81,7 +81,7 @@ whatsapp.on('message', async msg => {
         }).catch((err) => console.log(err));
     } else if (msg.body === 'agenda-ralat' || msg.body === 'agenda-kirim'){
 
-        let pesan = 'Om Swastiatu Ibu/Bapak, mohon ijin share agenda untuk besok. Hari';
+        let pesan = 'Om Swastiatu Ibu/Bapak, mohon ijin share agenda untuk hari';
         if (msg.body === 'agenda-ralat'){
             pesan = 'Ralat Agenda';
             // Delete last message
