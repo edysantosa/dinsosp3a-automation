@@ -121,7 +121,12 @@ try:
     time.sleep(2)
     driver.get("https://kanal.baliprov.go.id/internal")
     time.sleep(2)
-    tommorow = date.today() + timedelta(days=1) 
+
+    if (datetime.now().hour > 12)
+        tommorow = date.today() + timedelta(days=1) 
+    else
+        tommorow = date.today()
+
     tommorowFormat = format_date(tommorow, "yyyy-MM-dd", locale='id')
     tommorowName = format_date(tommorow, "EEEE, d MMMM yyyy", locale='id')
 

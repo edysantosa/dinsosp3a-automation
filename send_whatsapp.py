@@ -19,8 +19,11 @@ if __name__ == "__main__":
     message = args.message
     deleteFile = args.deletefile
 
-
-    tommorow = date.today() + timedelta(days=1) 
+    if (datetime.now().hour > 12)
+        tommorow = date.today() + timedelta(days=1) 
+    else
+        tommorow = date.today()
+    
     tommorowFormat = format_date(tommorow, "yyyy-MM-dd", locale='id')
     tommorowName = format_date(tommorow, "EEEE, d MMMM yyyy", locale='id')
     file_name = "agenda-{fileName}.pdf".format(fileName=tommorowFormat)
