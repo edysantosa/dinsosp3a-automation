@@ -122,9 +122,9 @@ try:
     driver.get("https://kanal.baliprov.go.id/internal")
     time.sleep(2)
 
-    if (datetime.now().hour > 12)
+    if (datetime.now().hour > 12):
         tommorow = date.today() + timedelta(days=1) 
-    else
+    else:
         tommorow = date.today()
 
     tommorowFormat = format_date(tommorow, "yyyy-MM-dd", locale='id')
