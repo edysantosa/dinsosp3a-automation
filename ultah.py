@@ -7,7 +7,7 @@ import requests
 import base64
 import argparse
 import os
-
+import sys
 
 if __name__ == "__main__":
 
@@ -42,6 +42,10 @@ if __name__ == "__main__":
     # for person in birthdays:
     #     print(person)
 
+    if len(birthdays) == 0:
+    print("gak ada yang ultah")
+    sys.exit(0)
+
     message = f"*Selamat ulang tahun untuk*:\n\n{''.join(['- _{}_\n'.format(x) for x in birthdays])}\n*Semoga sehat dan sukses selalu*"
     # print(message)
 
@@ -54,9 +58,7 @@ if __name__ == "__main__":
     # url = 'http://localhost:8000/send-group-message'
     # r = requests.post(url, headers=headers, json=json_payload)
     # print (r.json())
-
-
-
+    
     try:
         with open("happy_birthday.png", "rb") as pdf_file:
             encoded_string = base64.b64encode(pdf_file.read())

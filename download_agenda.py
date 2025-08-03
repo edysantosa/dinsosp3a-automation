@@ -80,7 +80,7 @@ try:
         # enter the email and password
         email = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@name='username']")))
         email.send_keys("edy.santosa.p@gmail.com")
-        driver.find_element(By.XPATH, "//input[@name='password']").send_keys("Bali2020!@#")
+        driver.find_element(By.XPATH, "//input[@name='password']").send_keys("Fuck-0ff!@#")
 
         # OCR captcha
         text = ''
