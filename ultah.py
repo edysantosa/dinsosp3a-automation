@@ -35,7 +35,8 @@ if __name__ == "__main__":
         for cell in column_cells:
             # print(cell.value)
             # print(datetime.datetime.strptime(cell.value, "%d-%m-%Y"))
-            if (present.date() == cell.value.date()):
+            # if (present.date() == cell.value.date()):
+            if cell.value.date().day == present.date().day and cell.value.date().month == present.date().month:
                 # print(sheet.cell(row=cell.row, column=cell.column-1).value)
                 birthdays.append(sheet.cell(row=cell.row, column=cell.column-1).value)
 
@@ -43,8 +44,8 @@ if __name__ == "__main__":
     #     print(person)
 
     if len(birthdays) == 0:
-    print("gak ada yang ultah")
-    sys.exit(0)
+        print("gak ada yang ultah")
+        sys.exit(0)
 
     message = f"*Selamat ulang tahun untuk*:\n\n{''.join(['- _{}_\n'.format(x) for x in birthdays])}\n*Semoga sehat dan sukses selalu*"
     # print(message)
@@ -65,7 +66,7 @@ if __name__ == "__main__":
 
         headers = {"Content-Type": "application/json;charset=utf-8"}
         json_payload = {
-            "group_name":"EX SESPRI DINSOS",
+            "group_name":"Dinas Sosial P3A Prov. Bali",
             "message":message,
             "file_name": "happy_birthday.png",
             "mime_type": mimetypes.guess_file_type("happy_birthday.png")[0],
