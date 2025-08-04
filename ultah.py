@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
 
     present = datetime.datetime.now()
+    present = datetime.datetime(1985, 8, 10)
     birthdays = []
 
     # Iterate birthday columns
@@ -38,7 +39,9 @@ if __name__ == "__main__":
             # if (present.date() == cell.value.date()):
             if cell.value.date().day == present.date().day and cell.value.date().month == present.date().month:
                 # print(sheet.cell(row=cell.row, column=cell.column-1).value)
-                birthdays.append(sheet.cell(row=cell.row, column=cell.column-1).value)
+                birthdays.append({'sort': sheet.cell(row=cell.row, column=cell.column+1).value, 'name': sheet.cell(row=cell.row, column=cell.column-1).value})
+
+    birthdays.sort(key= lambda x : x['sort'])
 
     # for person in birthdays:
     #     print(person)
@@ -47,7 +50,7 @@ if __name__ == "__main__":
         print("gak ada yang ultah")
         sys.exit(0)
 
-    message = f"*Selamat ulang tahun untuk*:\n\n{''.join(['- _{}_\n'.format(x) for x in birthdays])}\n*Semoga sehat dan sukses selalu*"
+    message = f"*Selamat ulang tahun untuk*:\n\n{''.join(['- _{}_\n'.format(x['name']) for x in birthdays])}\n*Semoga sehat dan sukses selalu*"
     # print(message)
 
     # headers = {"Content-Type": "application/json;charset=utf-8"}
