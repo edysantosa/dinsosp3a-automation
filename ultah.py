@@ -28,7 +28,6 @@ if __name__ == "__main__":
 
 
     present = datetime.datetime.now()
-    present = datetime.datetime(1985, 8, 10)
     birthdays = []
 
     # Iterate birthday columns
